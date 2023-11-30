@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # master
+  hadoop:
+    # image: hadoopimg
+    build: .
+    container_name: hadoop
+    hostname: hadoop
+    user: hadoop
+    command: >
+      /bin/bash -c "
+      sudo service ssh restart &&
+      source /opt/envvars.sh &&
+      hdfs namenode -format -force -nonInteractive &&
+      start-dfs.sh &&
+      start-yarn.sh &&
+      echo \"yarn --daemon start timelineserver\" &&
+      mapred --daemon start historyserver &&
+      hdfs dfs -mkdir -p /user/hadoop &&
+      hdfs dfs -chown hadoop:hadoop /user/hadoop &&
+      hdfs dfs -test -d /tmp || hdfs dfs -mkdir /tmp &&
+      hdfs dfs -chmod 777 /tmp &&
+      echo "DEBUG" &&
+      tail -f /dev/null
+      "
+    ports:
+      - "9870:9870"
+      - "9868:9868"
+      - "8088:8088"
+      - "19888:19888"
+      - "8188:8188"
+      - "4040:4040"
+      - "8080:8080"
+    networks:
+      - hadoopnet
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          # memory-swap: 4G
+    depends_on: # start the workers before master
+      - hadoop1
+      - hadoop2
+      - hadoop3
+  
+  # worker 1
+  hadoop1:
+    # image: hadoopimg
+    build: .
+    container_name: hadoop1
+    hostname: hadoop1
+    ports:
+      - "9864:9864"
+      - "8042:8042"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          # memory-swap: 2G
+    networks:
+      - hadoopnet
+
+  # worker 2
+  hadoop2:
+    # image: hadoopimg
+    build: .
+    container_name: hadoop2
+    hostname: hadoop2
+    ports:
+      - "9865:9864"
+      - "8043:8042"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          # memory-swap: 2G
+    networks:
+      - hadoopnet
+
+  # worker 3
+  hadoop3:
+    build: .
+    # image: hadoopimg
+    container_name: hadoop3
+    hostname: hadoop3
+    ports:
+      - "9866:9864"
+      - "8044:8042"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          # memory-swap: 2G
+    networks:
+      - hadoopnet
+
+networks:
+  hadoopnet:
+    driver: bridge
