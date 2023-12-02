@@ -48,6 +48,7 @@ RUN wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 
 # Append JAVA_HOME to hadoop-env.sh
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
+# Change for ARM CPUs
 # RUN echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
 
 
@@ -63,20 +64,6 @@ COPY workers /opt/hadoop/etc/hadoop/workers
 # Install JupyterLab
 # RUN pip3 install jupyterlab
 
-# Set environment variables
-# ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 \
-
-# ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64 \
-#     PDSH_RCMD_TYPE=ssh \
-#     HADOOP_HOME=/opt/hadoop \
-#     HADOOP_VERSION=3.3.6 \
-#     HADOOP_COMMON_HOME=/opt/hadoop \
-#     HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop \
-#     HADOOP_HDFS_HOME=/opt/hadoop \
-#     HADOOP_MAPRED_HOME=/opt/hadoop \
-#     HADOOP_YARN_HOME=/opt/hadoop \
-#     PATH=${PATH}:/opt/hadoop/bin:/opt/hadoop/sbin
-
 RUN cat <<EOF > /opt/envvars.sh
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd4
 export PDSH_RCMD_TYPE=ssh
@@ -90,6 +77,7 @@ export HADOOP_YARN_HOME=\${HADOOP_HOME}
 export PATH=\${PATH}:\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin
 EOF
 
+# Change for ARM CPUs
 # RUN cat <<EOF > /opt/envvars.sh
 # export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64
 # export PDSH_RCMD_TYPE=ssh
@@ -103,7 +91,6 @@ EOF
 # export PATH=\${PATH}:\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin
 # EOF
 
-
 USER root
 
 RUN mkdir /var/run/sshd
@@ -111,19 +98,5 @@ RUN mkdir /var/run/sshd
 # Expose SSH port
 EXPOSE 22
 
-# Set the entrypoint script to start the SSH server
+# Set the cmd script to start the SSH server
 CMD ["/usr/sbin/sshd", "-D"]
-
-# RUN echo "#ENTRYPOINT" > /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-
-# CMD [ "/bin/bash" ]
-
-# ENTRYPOINT [ "/bin/bash" ]
-
-# ENTRYPOINT ["/bin/bash","/entrypoint.sh"]
-
-# ... (remaining instructions)
-
-# Start a shell by default when the container is run
-# CMD ["/bin/bash"]
