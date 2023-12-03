@@ -15,13 +15,12 @@ services:
       hdfs namenode -format -force -nonInteractive &&
       start-dfs.sh &&
       start-yarn.sh &&
-      echo \"yarn --daemon start timelineserver\" &&
+      yarn --daemon start timelineserver &&
       mapred --daemon start historyserver &&
       hdfs dfs -mkdir -p /user/hadoop &&
       hdfs dfs -chown hadoop:hadoop /user/hadoop &&
       hdfs dfs -test -d /tmp || hdfs dfs -mkdir /tmp &&
       hdfs dfs -chmod 777 /tmp &&
-      echo "DEBUG" &&
       tail -f /dev/null
       "
     ports:
@@ -38,7 +37,6 @@ services:
       resources:
         limits:
           memory: 4G
-          # memory-swap: 4G
     depends_on: # start the workers before master
       - hadoop1
       - hadoop2
@@ -57,7 +55,6 @@ services:
       resources:
         limits:
           memory: 2G
-          # memory-swap: 2G
     networks:
       - hadoopnet
 
@@ -74,7 +71,6 @@ services:
       resources:
         limits:
           memory: 2G
-          # memory-swap: 2G
     networks:
       - hadoopnet
 
@@ -91,7 +87,6 @@ services:
       resources:
         limits:
           memory: 2G
-          # memory-swap: 2G
     networks:
       - hadoopnet
 

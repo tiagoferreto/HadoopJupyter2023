@@ -75,7 +75,7 @@ COPY workers /opt/hadoop/etc/hadoop/workers
 #     HADOOP_HDFS_HOME=/opt/hadoop \
 #     HADOOP_MAPRED_HOME=/opt/hadoop \
 #     HADOOP_YARN_HOME=/opt/hadoop \
-#     PATH=${PATH}:/opt/hadoop/bin:/opt/hadoop/sbin
+#     PATH="${PATH}:/opt/hadoop/bin:/opt/hadoop/sbin"
 
 RUN cat <<EOF > /opt/envvars.sh
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd4
