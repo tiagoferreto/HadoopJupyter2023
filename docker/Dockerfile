@@ -48,6 +48,7 @@ RUN wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
 
 # Append JAVA_HOME to hadoop-env.sh
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
+# Change for ARM CPUs
 # RUN echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64" >> /opt/hadoop/etc/hadoop/hadoop-env.sh
 
 
@@ -90,6 +91,7 @@ export HADOOP_YARN_HOME=\${HADOOP_HOME}
 export PATH=\${PATH}:\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin
 EOF
 
+# Change for ARM CPUs
 # RUN cat <<EOF > /opt/envvars.sh
 # export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64
 # export PDSH_RCMD_TYPE=ssh
@@ -103,7 +105,6 @@ EOF
 # export PATH=\${PATH}:\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin
 # EOF
 
-
 USER root
 
 RUN mkdir /var/run/sshd
@@ -111,19 +112,5 @@ RUN mkdir /var/run/sshd
 # Expose SSH port
 EXPOSE 22
 
-# Set the entrypoint script to start the SSH server
+# Set the cmd script to start the SSH server
 CMD ["/usr/sbin/sshd", "-D"]
-
-# RUN echo "#ENTRYPOINT" > /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
-
-# CMD [ "/bin/bash" ]
-
-# ENTRYPOINT [ "/bin/bash" ]
-
-# ENTRYPOINT ["/bin/bash","/entrypoint.sh"]
-
-# ... (remaining instructions)
-
-# Start a shell by default when the container is run
-# CMD ["/bin/bash"]
