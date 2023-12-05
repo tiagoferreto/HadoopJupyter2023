@@ -32,4 +32,9 @@
     <value>10000</value>
 </property>
 
+<property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+</property>
+
 </configuration>
