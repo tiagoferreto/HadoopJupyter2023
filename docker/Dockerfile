@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y tzdata && \
     ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
-    apt-get install -y openjdk-8-jdk ssh pdsh vim wget apt-utils python3 python3-pip ipython3 less unzip sudo net-tools iputils-ping curl && \
+    apt-get install -y openjdk-8-jdk ssh pdsh vim wget apt-utils python3 python3-pip ipython3 less unzip sudo net-tools iputils-ping curl mysql-server unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -79,7 +79,7 @@ COPY workers /opt/hadoop/etc/hadoop/workers
 #     PATH="${PATH}:/opt/hadoop/bin:/opt/hadoop/sbin"
 
 RUN cat <<EOF > /opt/envvars.sh
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd4
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 export PDSH_RCMD_TYPE=ssh
 export HADOOP_HOME=/opt/hadoop
 export HADOOP_VERSION=3.3.6
