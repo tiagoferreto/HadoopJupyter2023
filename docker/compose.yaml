@@ -32,6 +32,10 @@ services:
       - "8080:8080"
     networks:
       - hadoopnet
+    volumes:
+      - type: bind
+        source: ../datasets
+        target: /opt/datasets
     depends_on: # start the workers before master
       - hadoop1
       - hadoop2
