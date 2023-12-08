@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y tzdata && \
     ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
-    apt-get install -y openjdk-8-jdk ssh pdsh vim wget apt-utils python3 python3-pip ipython3 less unzip sudo net-tools iputils-ping curl mysql-server unzip && \
+    apt-get install -y openjdk-8-jdk ssh pdsh vim wget apt-utils python3 python3-pip ipython3 less unzip sudo net-tools iputils-ping curl mysql-server unzip jq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
