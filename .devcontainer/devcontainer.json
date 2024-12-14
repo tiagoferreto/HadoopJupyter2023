@@ -1,10 +1,19 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "Python with Jupyter and Docker-in-Docker",
+  "image": "mcr.microsoft.com/devcontainers/python:3",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/python:1": {
-      "version": "latest",
-      "installJupyterlab": true
+      "version": "latest"
     }
-  }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install jupyterlab"
 }
